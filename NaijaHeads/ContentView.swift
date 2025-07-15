@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  NaijaHeads
 //
-//  Created by Micheal Egboh  on 11/15/25.
+//  Created by Emex on 07/15/25.
 //
 
 import SwiftUI
@@ -13,7 +13,7 @@ struct ContentView: View {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text("Hello, wold!")
         }
         .padding()
     }
