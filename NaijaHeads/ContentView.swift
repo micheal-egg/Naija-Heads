@@ -8,68 +8,79 @@
 import SwiftUI
 
 struct CardView: View {
+    let title: String
+
     var body: some View {
-        Rectangle()
-            .fill(Color.white)
-            .cornerRadius(20)
-            .frame(width: 165, height: 300)
-            .shadow(radius: 8)
+        ZStack {
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.white)
+                .shadow(radius: 8)
+
+            Text(title)
+                .font(.title2.bold())
+                .foregroundColor(.black)
+                .multilineTextAlignment(.center)
+                .padding()
+        }
+        .frame(width: 165, height: 300)
     }
 }
+
 struct ContentView: View {
     var body: some View {
         
-        // ZStack = layers on top of each other
-        // Background at the bottom, then all screen content on top
-        ZStack {
-            
-            // Global green gradient background component
-            AppBackground()
-            
-            // VStack = Vertical layout (top → bottom)
-            VStack {
-                
-                // App Title
-                Text("Wetin")
-                    .font(.largeTitle.bold())       // Big bold text
-                    .foregroundColor(.white)        // White text for contrast
-                
-                HStack(spacing: 16) {
-                    CardView()
-                    CardView()
-                    CardView()
-                }
+        //Manages Screen History
+        //Automatically implements back button if all are met
+        //Allows NavigationLink to work
+        NavigationStack {
+            ZStack {
+                AppBackground()
 
-                // Optional: make sure the HStack uses available width
-                .frame(maxWidth: .infinity, alignment: .center)
-                .padding(.top, 16) // space between title and cards
-                
-                
-                Spacer()   // Pushes button downward
-                
-                // Play Button (currently placeholder action)
-                Button(action: {
-                    // TODO: Navigate to category screen later
-                }) {
-                    Text("Play")
-                        .font(.title2.bold())       // Button text styling
-                        .padding()                  // Extra touch area
-                        .frame(maxWidth: 200)       // Standard button width
-                        .background(
-                            Color(red: 1.0, green: 0.825, blue: 0.298)  // Accent yellow
-                        )
-                        .foregroundColor(.black)    // Text color
-                        .cornerRadius(16)           // Rounded button corners
-                        .shadow(radius: 4)          // Light shadow for depth
+                VStack {
+                    Text("Wetin")
+                        .font(.largeTitle.bold())
+                        .foregroundColor(.white)
+
+                    HStack(spacing: 16) {
+                        // Title at the top of the bar
+                        // Afrobeats card → Afrobeats page
+                        //Navigation Link turns it into tappable UI Element, like Hyperlink in HTML
+                        NavigationLink(destination: AfrobeatsView()) {
+                            CardView(title: "Afrobeats")
+                        }
+                        .buttonStyle(.plain)
+
+                        // Slang card → Slang page
+                        NavigationLink(destination: SlangView()) {
+                            CardView(title: "Naija Slang")
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, 16)
+                    
+                    //Shift Content upwards
+                    Spacer()
+
+                    Button("Play") {
+                        // Later: start game flow
+                    }
+                    .font(.title2.bold())
+                    .padding()
+                    .frame(maxWidth: 200)
+                    .background(Color(red: 1.0, green: 0.825, blue: 0.298))
+                    .foregroundColor(.black)
+                    .cornerRadius(16)
+                    .shadow(radius: 4)
+
+                    Spacer()
                 }
-                
-                Spacer()   // Pushes button upward to center
+                .padding()
             }
-            .padding()   // Outer padding so nothing touches screen edges
         }
     }
 }
 
-#Preview {     // SwiftUI Preview for live UI updates
+#Preview {
     ContentView()
 }
